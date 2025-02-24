@@ -21,7 +21,9 @@ import os
 from pathlib import Path
 
 import imap_data_access
-from imap_data_access.file_validation import ScienceFilePath
+from imap_data_access.file_validation import (
+    ScienceFilePath,
+)
 
 
 def _download_parser(args: argparse.Namespace):
@@ -172,6 +174,88 @@ def _upload_parser(args: argparse.Namespace):
     """
     imap_data_access.upload(args.file_path)
     print("Successfully uploaded the file to the IMAP SDC")
+
+
+def add_common_arguments(parser: argparse.ArgumentParser):
+    """Add common arguments shared amongst file types to parser.
+
+    Parameters
+    ----------
+    parser : argparse.ArgumentParser
+        An object referring to the parser command that will have arguments added to.
+    """
+    parser.add_argument(
+        "--instrument",
+        type=str,
+        required=False,
+        help="Name of the instrument",
+        choices=[
+            "codice",
+            "glows",
+            "hi",
+            "hit",
+            "idex",
+            "lo",
+            "mag",
+            "swapi",
+            "swe",
+            "ultra",
+        ],
+    )
+    parser.add_argument(
+        "--data-level",
+        type=str,
+        required=False,
+        help="Data level of the product (l0, l1a, l2, etc.)",
+    )
+    parser.add_argument(
+        "--descriptor",
+        type=str,
+        required=False,
+        help="Descriptor of the product (raw, burst, etc.)",
+    )
+    parser.add_argument(
+        "--start-date",
+        type=str,
+        required=False,
+        help="Start date for files in YYYYMMDD format",
+    )
+    parser.add_argument(
+        "--end-date",
+        type=str,
+        required=False,
+        help="End date for a range of file timestamps in YYYYMMDD format",
+    )
+    parser.add_argument(
+        "--repointing", type=int, required=False, help="Repointing number (int)"
+    )
+    parser.add_argument(
+        "--version",
+        type=str,
+        required=False,
+        help="Version of the product in the format 'v001'."
+        " Must have one other parameter to run."
+        " Passing 'latest' will return latest version of a file",
+    )
+    parser.add_argument(
+        "--extension", type=str, required=False, help="File extension (cdf, pkts)"
+    )
+    parser.add_argument(
+        "--output-format",
+        type=str,
+        required=False,
+        help="How to format the output, default is 'table'",
+        choices=["table", "json"],
+        default="table",
+    )
+    parser.add_argument(
+        "--filename",
+        type=str,
+        required=False,
+        help="Name of a file to be searched for. For convention standards see https://imap-"
+        "processing.readthedocs.io/en/latest/development-guide/style-guide/naming-conventions"
+        ".html#data-product-file-naming-conventions",
+    )
 
 
 # PLR0915: too many statements
