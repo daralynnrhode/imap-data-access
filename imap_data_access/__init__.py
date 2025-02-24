@@ -25,10 +25,12 @@ __all__ = [
     "VALID_INSTRUMENTS",
     "VALID_DATALEVELS",
     "VALID_FILE_EXTENSION",
+    "VALID_ANCILLARY_FILE_EXTENSION",
     "FILENAME_CONVENTION",
+    "ANCILLARY_FILENAME_CONVENTION",
 ]
 
-__version__ = "0.13.1"
+__version__ = "0.12.0"
 
 
 config = {
